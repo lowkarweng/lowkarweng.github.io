@@ -1,0 +1,125 @@
+<html>
+
+<head>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        table, tr, td, th {
+            border: 1px solid lightgray;
+            border-collapse: collapse;
+        }
+
+        table {
+            display: inline-table;
+            margin: 10px;
+        }
+
+        td,
+        th {
+            height: 25px;
+            width: 100px;
+        }
+
+        .table1 tr td:nth-child(2) {
+            text-align: right;
+        }
+
+        .table1 tbody:nth-child(1) td:nth-child(2) {
+            text-align: left;
+        }
+
+        .table2 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <label>Table 1</label>
+    <table id="table1" class="table1"></table>
+    <br>
+    <label>Table 2</label>
+    <table id="table2" class="table2">
+        <tr>
+            <th>Category</th>
+            <th>Value</th>
+        </tr>
+    </table>
+</body>
+<script>
+    //Reference: https://medium.com/@ryan_forrester_/read-csv-files-in-javascript-how-to-guide-8d0ac6df082a
+    //Fetch Data function
+    async function fetchCSV(url) {
+        try {
+            const response = await fetch(url);
+            const rawData = await response.text();
+
+            //Format Data into Rows and Columns
+            let rows = rawData.split("\r\n");
+            let data = rows.map(row => row.split(","));
+
+            //Display All Data (Table 1)
+            for (let index = 0; index < data.length; index++) {
+                let element = data[index];
+                document.getElementById("table1").innerHTML += `
+                    <tr>
+                        <td>${element[0]}</td>
+                        <td>${element[1]}</td>
+                    </tr>
+                `;
+            };
+
+            //Declare array to store processed data
+            let processedData = [];
+
+            //Function for simplfying calculation
+            function calc(index1, index2, action) {
+                var data1 = parseInt(data[index1][1]);
+                var data2 = parseInt(data[index2][1]);
+                switch (action) {
+                    case "+":
+                        return data1 + data2;
+                        break;
+                    case "*":
+                        return data1 * data2;
+                        break;
+                    case "/":
+                        return data1 / data2;
+                        break;
+                    default:
+                        return 0;
+                        break;
+                };
+            };
+
+            //First - Alpha
+            processedData.push(["Alpha", calc(5, 20, "+")]);
+            //Second - Beta
+            processedData.push(["Beta", calc(17, 7, "/")]);
+            //Third - Charlie
+            processedData.push(["Charlie", calc(13, 12, "*")]);
+
+            //Display Processed Table (Table 2)
+            for (let index = 0; index < processedData.length; index++) {
+                const element = processedData[index];
+                document.getElementById("table2").innerHTML += `
+                    <tr>
+                        <td>${element[0]}</td>
+                        <td>${element[1]}</td>
+                    </tr>
+                `;
+            };
+
+        } catch (error) {
+            console.error('Error fetching CSV:', error);
+        }
+    }
+
+    //Fetch Table Input Data
+    fetchCSV('Table_Input.csv');
+
+</script>
+
+</html>
