@@ -57,7 +57,7 @@
             const rawData = await response.text();
 
             //Format Data into Rows and Columns
-            let rows = rawData.split("\r\n");
+            let rows = rawData.split(/\r\n/);
             let data = rows.map(row => row.split(","));
 
             //Display All Data (Table 1)
