@@ -71,6 +71,8 @@
                 `;
             };
 
+            console.log(data);
+
             //Declare array to store processed data
             let processedData = [];
 
@@ -101,6 +103,8 @@
             //Third - Charlie
             processedData.push(["Charlie", calc(13, 12, "*")]);
 
+            console.log(processedData);
+
             //Display Processed Table (Table 2)
             for (let index = 0; index < processedData.length; index++) {
                 const element = processedData[index];
@@ -119,6 +123,7 @@
 
     //Fetch Table Input Data
     fetchCSV('Table_Input.csv');
+    // fetchCSV('https://lowkarweng.github.io/table_input.csv');
 
 </script>
 
